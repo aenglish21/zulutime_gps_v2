@@ -99,6 +99,11 @@ struct GPSCardView: View {
                 Spacer()
             }
 
+            // CAP Grid reference
+            LocationRow(label: "CAP Grid:", value: locationService.capGrid)
+
+            Divider().background(Color.zuluYellow.opacity(0.3))
+
             // Data rows
             LocationRow(label: "Latitude:", value: locationService.latitude)
             LocationRow(label: "Longitude:", value: locationService.longitude)

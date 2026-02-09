@@ -30,6 +30,11 @@ class LocationService: NSObject, ObservableObject, CLLocationManagerDelegate {
         return String(format: "\u{00B1}%.1f m", loc.horizontalAccuracy)
     }
 
+    var capGrid: String {
+        guard let loc = currentLocation else { return "--" }
+        return CAPGridService.gridReference(for: loc.coordinate) ?? "Outside coverage"
+    }
+
     override init() {
         super.init()
         locationManager.delegate = self
