@@ -77,8 +77,8 @@ struct CAPGridService {
         SectionalChart(name: "EL PASO",       northLat: 34.0, southLat: 30.0, westLon: -108.0, eastLon: -102.0),
         SectionalChart(name: "SAN ANTONIO",   northLat: 32.0, southLat: 28.0, westLon: -102.0, eastLon: -96.0),
         SectionalChart(name: "HOUSTON",       northLat: 32.0, southLat: 28.0, westLon: -98.0,  eastLon: -92.0),
-        SectionalChart(name: "NEW ORLEANS",   northLat: 32.0, southLat: 28.0, westLon: -92.0,  eastLon: -86.0),
-        SectionalChart(name: "JACKSONVILLE",  northLat: 32.0, southLat: 28.0, westLon: -86.0,  eastLon: -80.0),
+        SectionalChart(name: "NEW ORLEANS",   northLat: 32.0, southLat: 28.0, westLon: -92.0,  eastLon: -85.0),
+        SectionalChart(name: "JACKSONVILLE",  northLat: 32.0, southLat: 28.0, westLon: -85.0,  eastLon: -79.0),
         SectionalChart(name: "BROWNSVILLE",   northLat: 28.0, southLat: 24.0, westLon: -100.0, eastLon: -96.0),
         SectionalChart(name: "MIAMI",         northLat: 28.0, southLat: 24.0, westLon: -84.0,  eastLon: -78.0),
 
