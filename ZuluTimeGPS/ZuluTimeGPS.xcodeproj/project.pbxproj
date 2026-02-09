@@ -11,6 +11,7 @@
 		AA000002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100002 /* ContentView.swift */; };
 		AA000003 /* TimeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100003 /* TimeService.swift */; };
 		AA000004 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100004 /* LocationService.swift */; };
+		AA000007 /* CAPGridService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100008 /* CAPGridService.swift */; };
 		AA000005 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA100005 /* Assets.xcassets */; };
 		AA000006 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA100006 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
@@ -20,6 +21,7 @@
 		AA100002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		AA100003 /* TimeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeService.swift; sourceTree = "<group>"; };
 		AA100004 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		AA100008 /* CAPGridService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAPGridService.swift; sourceTree = "<group>"; };
 		AA100005 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AA100006 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		AA100007 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 			children = (
 				AA100003 /* TimeService.swift */,
 				AA100004 /* LocationService.swift */,
+				AA100008 /* CAPGridService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -157,6 +160,7 @@
 				AA000001 /* ZuluTimeGPSApp.swift in Sources */,
 				AA000003 /* TimeService.swift in Sources */,
 				AA000004 /* LocationService.swift in Sources */,
+				AA000007 /* CAPGridService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
