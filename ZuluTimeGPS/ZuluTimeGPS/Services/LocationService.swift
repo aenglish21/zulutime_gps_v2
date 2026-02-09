@@ -87,7 +87,7 @@ class LocationService: NSObject, ObservableObject, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
         currentLocation = location
-        statusMessage = isTracking ? "Tracking active" : "Location updated"
+        statusMessage = isTracking ? "Location Active" : "Location updated"
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

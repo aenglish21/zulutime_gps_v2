@@ -11,12 +11,12 @@ struct ContentView: View {
 
                     // --- UTC Time ---
                     VStack(spacing: 8) {
-                        Text("UTC")
+                        Text("Zulu Time")
                             .font(.system(size: 28, weight: .light))
                             .foregroundColor(.white)
 
                         Text(timeService.utcTimeFormatted)
-                            .font(.system(size: 72, weight: .bold, design: .monospaced))
+                            .font(.system(size: 50, weight: .bold, design: .monospaced))
                             .foregroundColor(.white)
 
                         Text(timeService.utcDateFormatted)
@@ -29,12 +29,12 @@ struct ContentView: View {
 
                     // --- Local Time ---
                     VStack(spacing: 8) {
-                        Text("Local")
+                        Text("Local Time")
                             .font(.system(size: 28, weight: .light))
                             .foregroundColor(.white)
 
                         Text(timeService.localTimeFormatted)
-                            .font(.system(size: 72, weight: .bold, design: .monospaced))
+                            .font(.system(size: 50, weight: .bold, design: .monospaced))
                             .foregroundColor(.white)
 
                         Text(timeService.localDateFormatted)
@@ -57,15 +57,14 @@ struct ContentView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    Text("ZuluTime")
+                    Text("Zulu Time")
                         .font(.system(size: 32, weight: .bold))
                         .foregroundColor(Color.zuluYellow)
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         locationService.refreshLocation()
-                    } label: {
-                        Image(systemName: "location.fill")
+                    } label: {                        Image(systemName: "location.fill")
                             .foregroundColor(.white)
                     }
                 }

@@ -2,34 +2,9 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleDisplayName</key>
-	<string>ZuluTime GPS</string>
-
-	<!-- Location Permissions -->
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>ZuluTime GPS needs access to your location to display current coordinates and determine timezone information.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>ZuluTime GPS needs access to your location to track coordinates during missions and operations.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>ZuluTime GPS can track your location in the background for mission logging.</string>
-
-	<!-- Background Modes -->
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>location</string>
-	</array>
-
-	<!-- Portrait Only (iPhone) -->
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-	</array>
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 </dict>
 </plist>
