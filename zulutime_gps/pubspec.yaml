@@ -1,0 +1,37 @@
+name: zulutime_gps
+description: A UTC/Zulu time display app with GPS location tracking
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # Time handling
+  intl: ^0.19.0
+  timezone: ^0.9.3
+  
+  # Location services
+  geolocator: ^11.0.0
+  permission_handler: ^11.3.0
+  
+  # State management
+  provider: ^6.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_launcher_icons: ^0.13.1
+
+flutter:
+  uses-material-design: true
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon.png"
+  adaptive_icon_foreground: "assets/icon.png"
+  adaptive_icon_background: "#000000"

@@ -1,0 +1,22 @@
+<!-- iOS Info.plist Location Permissions -->
+<!-- Add these entries to your ios/Runner/Info.plist file -->
+
+<!-- Location permissions -->
+<key>NSLocationWhenInUseUsageDescription</key>
+<string>ZuluTime GPS needs your location to display GPS coordinates and timezone information.</string>
+
+<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+<string>ZuluTime GPS needs your location to track your position and display accurate timezone information.</string>
+
+<!-- Required for iOS 14+ -->
+<key>NSLocationTemporaryUsageDescriptionDictionary</key>
+<dict>
+    <key>PreciseLocationUsage</key>
+    <string>ZuluTime GPS needs precise location for accurate GPS coordinates.</string>
+</dict>
+
+<!-- Prevent backup (optional, for better App Store approval) -->
+<key>UIBackgroundModes</key>
+<array>
+    <string>location</string>
+</array>
