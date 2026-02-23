@@ -3,6 +3,9 @@ import SwiftUI
 struct ContentView: View {
     @StateObject private var timeService = TimeService()
     @StateObject private var locationService = LocationService()
+    @AppStorage("showGPS") private var showGPS = true
+    @AppStorage("useFeet") private var useFeet = false
+    @State private var showSettings = false
 
     var body: some View {
         NavigationStack {
@@ -49,13 +52,23 @@ struct ContentView: View {
                     Spacer().frame(height: 48)
 
                     // --- GPS Location Card ---
-                    GPSCardView(locationService: locationService)
+                    if showGPS {
+                        GPSCardView(locationService: locationService, useFeet: useFeet)
+                    }
                 }
                 .padding(.horizontal, 24)
             }
             .background(Color.black)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        showSettings = true
+                    } label: {
+                        Image(systemName: "gearshape.fill")
+                            .foregroundColor(.white)
+                    }
+                }
                 ToolbarItem(placement: .principal) {
                     Text("Zulu Time")
                         .font(.system(size: 32, weight: .bold))
@@ -71,9 +84,45 @@ struct ContentView: View {
             }
             .toolbarBackground(Color.black, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
+            .sheet(isPresented: $showSettings) {
+                SettingsView(showGPS: $showGPS, useFeet: $useFeet)
+            }
         }
         .onAppear {
             locationService.startTracking()
+        }
+    }
+}
+
+// MARK: - Settings View
+
+struct SettingsView: View {
+    @Binding var showGPS: Bool
+    @Binding var useFeet: Bool
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationStack {
+            List {
+                Section("GPS Display") {
+                    Toggle("Show GPS Location", isOn: $showGPS)
+                }
+
+                Section("Units") {
+                    Picker("Altitude / Accuracy", selection: $useFeet) {
+                        Text("Meters").tag(false)
+                        Text("Feet").tag(true)
+                    }
+                    .pickerStyle(.segmented)
+                }
+            }
+            .navigationTitle("Settings")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Done") { dismiss() }
+                }
+            }
         }
     }
 }
@@ -82,6 +131,7 @@ struct ContentView: View {
 
 struct GPSCardView: View {
     @ObservedObject var locationService: LocationService
+    var useFeet: Bool
 
     var body: some View {
         VStack(spacing: 16) {
@@ -106,8 +156,8 @@ struct GPSCardView: View {
             // Data rows
             LocationRow(label: "Latitude:", value: locationService.latitude)
             LocationRow(label: "Longitude:", value: locationService.longitude)
-            LocationRow(label: "Altitude:", value: locationService.altitude)
-            LocationRow(label: "Accuracy:", value: locationService.accuracy)
+            LocationRow(label: "Altitude:", value: locationService.altitude(useFeet: useFeet))
+            LocationRow(label: "Accuracy:", value: locationService.accuracy(useFeet: useFeet))
 
             // Status
             Text(locationService.statusMessage)
