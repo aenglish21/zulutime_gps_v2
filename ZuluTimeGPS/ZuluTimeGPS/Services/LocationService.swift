@@ -20,13 +20,19 @@ class LocationService: NSObject, ObservableObject, CLLocationManagerDelegate {
         return String(format: "%.6f", loc.coordinate.longitude)
     }
 
-    var altitude: String {
+    func altitude(useFeet: Bool) -> String {
         guard let loc = currentLocation else { return "--" }
+        if useFeet {
+            return String(format: "%.1f ft", loc.altitude * 3.28084)
+        }
         return String(format: "%.1f m", loc.altitude)
     }
 
-    var accuracy: String {
+    func accuracy(useFeet: Bool) -> String {
         guard let loc = currentLocation else { return "--" }
+        if useFeet {
+            return String(format: "\u{00B1}%.1f ft", loc.horizontalAccuracy * 3.28084)
+        }
         return String(format: "\u{00B1}%.1f m", loc.horizontalAccuracy)
     }
 
