@@ -3,8 +3,9 @@ import SwiftUI
 struct ContentView: View {
     @StateObject private var timeService = TimeService()
     @StateObject private var locationService = LocationService()
-    @AppStorage("showGPS") private var showGPS = true
+    @AppStorage("gpsEnabled") private var gpsEnabled = true
     @AppStorage("useFeet") private var useFeet = false
+    @AppStorage("keepScreenOn") private var keepScreenOn = true
     @State private var showingSettings = false
 
     var body: some View {
@@ -52,7 +53,7 @@ struct ContentView: View {
                     Spacer().frame(height: 48)
 
                     // --- GPS Location Card ---
-                    if showGPS {
+                    if gpsEnabled {
                         GPSCardView(locationService: locationService, useFeet: useFeet)
                     }
                 }
@@ -86,11 +87,24 @@ struct ContentView: View {
             .toolbarBackground(Color.black, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
             .sheet(isPresented: $showingSettings) {
-                SettingsView(showGPS: $showGPS, useFeet: $useFeet)
+                SettingsView(gpsEnabled: $gpsEnabled, useFeet: $useFeet, keepScreenOn: $keepScreenOn)
             }
         }
         .onAppear {
-            locationService.startTracking()
+            if gpsEnabled {
+                locationService.startTracking()
+            }
+            UIApplication.shared.isIdleTimerDisabled = keepScreenOn
+        }
+        .onChange(of: gpsEnabled) { _, enabled in
+            if enabled {
+                locationService.startTracking()
+            } else {
+                locationService.stopTracking()
+            }
+        }
+        .onChange(of: keepScreenOn) { _, enabled in
+            UIApplication.shared.isIdleTimerDisabled = enabled
         }
     }
 }
@@ -98,15 +112,20 @@ struct ContentView: View {
 // MARK: - Settings View
 
 struct SettingsView: View {
-    @Binding var showGPS: Bool
+    @Binding var gpsEnabled: Bool
     @Binding var useFeet: Bool
+    @Binding var keepScreenOn: Bool
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         NavigationStack {
             List {
-                Section("GPS Display") {
-                    Toggle("Show GPS Location", isOn: $showGPS)
+                Section("Display") {
+                    Toggle("Keep Screen On", isOn: $keepScreenOn)
+                }
+
+                Section("GPS") {
+                    Toggle("GPS Tracking", isOn: $gpsEnabled)
                 }
 
                 Section("Units") {
