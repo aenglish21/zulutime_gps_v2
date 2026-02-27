@@ -3,6 +3,8 @@ import SwiftUI
 struct ContentView: View {
     @StateObject private var timeService = TimeService()
     @StateObject private var locationService = LocationService()
+    @AppStorage("gpsTrackingEnabled") private var gpsTrackingEnabled = true
+    @State private var showingSettings = false
 
     var body: some View {
         NavigationStack {
@@ -56,6 +58,14 @@ struct ContentView: View {
             .background(Color.black)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        showingSettings = true
+                    } label: {
+                        Image(systemName: "gear")
+                            .foregroundColor(.white)
+                    }
+                }
                 ToolbarItem(placement: .principal) {
                     Text("Zulu Time")
                         .font(.system(size: 32, weight: .bold))
@@ -64,16 +74,22 @@ struct ContentView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         locationService.refreshLocation()
-                    } label: {                        Image(systemName: "location.fill")
+                    } label: {
+                        Image(systemName: "location.fill")
                             .foregroundColor(.white)
                     }
                 }
             }
             .toolbarBackground(Color.black, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
+            .sheet(isPresented: $showingSettings) {
+                SettingsView(locationService: locationService)
+            }
         }
         .onAppear {
-            locationService.startTracking()
+            if gpsTrackingEnabled {
+                locationService.startTracking()
+            }
         }
     }
 }
@@ -140,6 +156,54 @@ struct LocationRow: View {
             Text(value)
                 .font(.system(size: 18, weight: .medium, design: .monospaced))
                 .foregroundColor(.white)
+        }
+    }
+}
+
+// MARK: - Settings View
+
+struct SettingsView: View {
+    @ObservedObject var locationService: LocationService
+    @AppStorage("gpsTrackingEnabled") private var gpsTrackingEnabled = true
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section("GPS") {
+                    Toggle("GPS Tracking", isOn: $gpsTrackingEnabled)
+                        .tint(Color.zuluYellow)
+                        .onChange(of: gpsTrackingEnabled) { _, enabled in
+                            if enabled {
+                                locationService.startTracking()
+                            } else {
+                                locationService.stopTracking()
+                            }
+                        }
+                    if !gpsTrackingEnabled {
+                        Text("GPS tracking is disabled. Location data will not be updated.")
+                            .font(.footnote)
+                            .foregroundColor(.secondary)
+                    }
+                }
+
+                Section("About") {
+                    HStack {
+                        Text("Version")
+                        Spacer()
+                        Text("2.0.0")
+                            .foregroundColor(.secondary)
+                    }
+                }
+            }
+            .navigationTitle("Settings")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Done") { dismiss() }
+                        .foregroundColor(Color.zuluYellow)
+                }
+            }
         }
     }
 }
