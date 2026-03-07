@@ -40,48 +40,51 @@ struct CAPGridService {
     // Validate grid output against https://www.capgrids.com
 
     static let charts: [SectionalChart] = [
-        // --- Northern tier (~44°N – 49°N) [E] ---
+        // --- Northern tier (~44°N – 48°N) [E] ---
+        // NOTE: Bounds below are estimates [E]. Verify all against FAA IAC-2 spec (page 1-4).
+        // Known gap: -104° to -98° (North Dakota) — no official chart identified without IAC-2 data.
         SectionalChart(name: "SEATTLE",       northLat: 48.0, southLat: 44.0, westLon: -126.0, eastLon: -118.0), // [E]
         SectionalChart(name: "GREAT FALLS",   northLat: 48.0, southLat: 44.0, westLon: -118.0, eastLon: -108.0), // [E]
-        SectionalChart(name: "BILLINGS",      northLat: 48.0, southLat: 44.0, westLon: -112.0, eastLon: -104.0), // [E]
+        SectionalChart(name: "BILLINGS",      northLat: 48.0, southLat: 44.0, westLon: -108.0, eastLon: -104.0), // [E] fixed: was -112 (overlapped GREAT FALLS)
         SectionalChart(name: "TWIN CITIES",   northLat: 48.0, southLat: 44.0, westLon: -98.0,  eastLon: -90.0),  // [E]
-        SectionalChart(name: "GREEN BAY",     northLat: 48.0, southLat: 44.0, westLon: -92.0,  eastLon: -84.0),  // [E]
-        SectionalChart(name: "LAKE HURON",    northLat: 48.0, southLat: 44.0, westLon: -86.0,  eastLon: -78.0),  // [E]
+        SectionalChart(name: "GREEN BAY",     northLat: 48.0, southLat: 44.0, westLon: -90.0,  eastLon: -84.0),  // [E] fixed: was -92 (overlapped TWIN CITIES)
+        SectionalChart(name: "LAKE HURON",    northLat: 48.0, southLat: 44.0, westLon: -84.0,  eastLon: -78.0),  // [E] fixed: was -86 (overlapped GREEN BAY)
         SectionalChart(name: "MONTREAL",      northLat: 48.0, southLat: 44.0, westLon: -78.0,  eastLon: -70.0),  // [E]
-        SectionalChart(name: "HALIFAX",        northLat: 48.0, southLat: 44.0, westLon: -70.0,  eastLon: -62.0),  // [E]
+        SectionalChart(name: "HALIFAX",       northLat: 48.0, southLat: 44.0, westLon: -70.0,  eastLon: -62.0),  // [E]
 
         // --- Upper-mid tier (~40°N – 44°N) ---
         SectionalChart(name: "KLAMATH FALLS", northLat: 44.0, southLat: 40.0, westLon: -126.0, eastLon: -118.0), // [E]
-        SectionalChart(name: "SALT LAKE CITY",northLat: 42.0, southLat: 38.0, westLon: -118.0, eastLon: -108.0), // [E]
+        SectionalChart(name: "SALT LAKE CITY",northLat: 44.0, southLat: 40.0, westLon: -118.0, eastLon: -108.0), // [E] fixed: was N:42/S:38 (inconsistent with tier)
+        SectionalChart(name: "CHEYENNE",      northLat: 44.0, southLat: 40.0, westLon: -108.0, eastLon: -101.0), // [E] ADDED: was missing, tiles SALT LAKE CITY → OMAHA
         SectionalChart(name: "OMAHA",         northLat: 44.0, southLat: 40.0, westLon: -101.0, eastLon: -93.0),  // [V] cap-es.net
         SectionalChart(name: "CHICAGO",       northLat: 44.0, southLat: 40.0, westLon: -93.0,  eastLon: -85.0),  // [V] cross-checked via CAP designation 40092AA=Grid385
         SectionalChart(name: "DETROIT",       northLat: 44.0, southLat: 40.0, westLon: -85.0,  eastLon: -77.0),  // [V] tiles east of Chicago
-        SectionalChart(name: "NEW YORK",      northLat: 42.0, southLat: 38.0, westLon: -78.0,  eastLon: -70.0),  // [E]
+        SectionalChart(name: "NEW YORK",      northLat: 44.0, southLat: 40.0, westLon: -77.0,  eastLon: -70.0),  // [E] fixed: was N:42/S:38 (inconsistent with tier)
 
-        // --- Mid tier (~36°N – 42°N) ---
+        // --- Mid tier (~36°N – 40°N) ---
         SectionalChart(name: "SAN FRANCISCO", northLat: 40.0, southLat: 36.0, westLon: -126.0, eastLon: -120.0), // [E]
-        SectionalChart(name: "DENVER",        northLat: 42.0, southLat: 38.0, westLon: -109.0, eastLon: -101.0), // [E] adjusted to tile with Omaha
-        SectionalChart(name: "WICHITA",       northLat: 40.0, southLat: 36.0, westLon: -101.0, eastLon: -95.0),  // [E] adjusted to tile with Omaha
-        SectionalChart(name: "KANSAS CITY",   northLat: 41.0, southLat: 37.0, westLon: -98.0,  eastLon: -92.0),  // [E]
-        SectionalChart(name: "ST LOUIS",      northLat: 41.0, southLat: 37.0, westLon: -92.0,  eastLon: -86.0),  // [E]
-        SectionalChart(name: "CINCINNATI",    northLat: 41.0, southLat: 37.0, westLon: -86.0,  eastLon: -80.0),  // [E]
-        SectionalChart(name: "WASHINGTON",    northLat: 41.0, southLat: 37.0, westLon: -80.0,  eastLon: -74.0),  // [E]
+        SectionalChart(name: "LAS VEGAS",     northLat: 40.0, southLat: 36.0, westLon: -120.0, eastLon: -114.0), // [E] fixed: was N:38/S:34 (inconsistent with tier)
+        SectionalChart(name: "DENVER",        northLat: 40.0, southLat: 36.0, westLon: -109.0, eastLon: -101.0), // [E] fixed: was N:42/S:38
+        SectionalChart(name: "WICHITA",       northLat: 40.0, southLat: 36.0, westLon: -101.0, eastLon: -95.0),  // [E]
+        SectionalChart(name: "KANSAS CITY",   northLat: 40.0, southLat: 36.0, westLon: -95.0,  eastLon: -89.0),  // [E] fixed: was N:41/S:37
+        SectionalChart(name: "ST LOUIS",      northLat: 40.0, southLat: 36.0, westLon: -89.0,  eastLon: -83.0),  // [E] fixed: was N:41/S:37
+        SectionalChart(name: "CINCINNATI",    northLat: 40.0, southLat: 36.0, westLon: -83.0,  eastLon: -77.0),  // [E] fixed: was N:41/S:37
+        SectionalChart(name: "WASHINGTON",    northLat: 40.0, southLat: 36.0, westLon: -77.0,  eastLon: -71.0),  // [E] fixed: was N:41/S:37
 
-        // --- Lower-mid tier (~32°N – 38°N) ---
+        // --- Lower-mid tier (~32°N – 36°N) ---
         SectionalChart(name: "LOS ANGELES",   northLat: 36.0, southLat: 32.0, westLon: -122.0, eastLon: -116.0), // [E]
-        SectionalChart(name: "LAS VEGAS",     northLat: 38.0, southLat: 34.0, westLon: -118.0, eastLon: -112.0), // [E]
-        SectionalChart(name: "PHOENIX",       northLat: 36.0, southLat: 32.0, westLon: -114.0, eastLon: -108.0), // [E]
-        SectionalChart(name: "ALBUQUERQUE",   northLat: 36.0, southLat: 32.0, westLon: -108.0, eastLon: -102.0), // [E]
-        SectionalChart(name: "DALLAS-FT WORTH", northLat: 36.0, southLat: 32.0, westLon: -100.0, eastLon: -94.0), // [E]
-        SectionalChart(name: "MEMPHIS",       northLat: 38.0, southLat: 34.0, westLon: -92.0,  eastLon: -86.0),  // [E]
-        SectionalChart(name: "ATLANTA",       northLat: 36.0, southLat: 32.0, westLon: -86.0,  eastLon: -80.0),  // [E]
+        SectionalChart(name: "PHOENIX",       northLat: 36.0, southLat: 32.0, westLon: -116.0, eastLon: -110.0), // [E] fixed: was -114/-108
+        SectionalChart(name: "ALBUQUERQUE",   northLat: 36.0, southLat: 32.0, westLon: -110.0, eastLon: -104.0), // [E] fixed: was -108/-102
+        SectionalChart(name: "DALLAS-FT WORTH", northLat: 36.0, southLat: 32.0, westLon: -104.0, eastLon: -98.0), // [E] fixed: was -100/-94
+        SectionalChart(name: "MEMPHIS",       northLat: 36.0, southLat: 32.0, westLon: -98.0,  eastLon: -88.0),  // [E] fixed: was N:38/S:34
+        SectionalChart(name: "ATLANTA",       northLat: 36.0, southLat: 32.0, westLon: -88.0,  eastLon: -82.0),  // [E]
         SectionalChart(name: "CHARLOTTE",     northLat: 38.0, southLat: 34.0, westLon: -82.0,  eastLon: -75.0),  // [V] cap-es.net
 
-        // --- Southern tier (~24°N – 32°N) ---
-        SectionalChart(name: "EL PASO",       northLat: 34.0, southLat: 30.0, westLon: -108.0, eastLon: -102.0), // [E]
-        SectionalChart(name: "SAN ANTONIO",   northLat: 32.0, southLat: 28.0, westLon: -102.0, eastLon: -96.0),  // [E]
+        // --- Southern tier (~28°N – 32°N) ---
+        SectionalChart(name: "EL PASO",       northLat: 32.0, southLat: 28.0, westLon: -110.0, eastLon: -104.0), // [E] fixed: was N:34/S:30
+        SectionalChart(name: "SAN ANTONIO",   northLat: 32.0, southLat: 28.0, westLon: -104.0, eastLon: -98.0),  // [E] fixed: was -102/-96
         SectionalChart(name: "HOUSTON",       northLat: 32.0, southLat: 28.0, westLon: -98.0,  eastLon: -92.0),  // [E]
-        SectionalChart(name: "NEW ORLEANS",   northLat: 32.0, southLat: 28.0, westLon: -92.0,  eastLon: -85.0),  // [E] tiles with Jacksonville
+        SectionalChart(name: "NEW ORLEANS",   northLat: 32.0, southLat: 28.0, westLon: -92.0,  eastLon: -85.0),  // [E]
         SectionalChart(name: "JACKSONVILLE",  northLat: 32.0, southLat: 28.0, westLon: -85.0,  eastLon: -79.0),  // [V] cap-es.net
         SectionalChart(name: "BROWNSVILLE",   northLat: 28.0, southLat: 24.0, westLon: -100.0, eastLon: -96.0),  // [E]
         SectionalChart(name: "MIAMI",         northLat: 28.0, southLat: 24.0, westLon: -84.0,  eastLon: -78.0),  // [E]
@@ -91,8 +94,8 @@ struct CAPGridService {
         SectionalChart(name: "FAIRBANKS",     northLat: 68.0, southLat: 62.0, westLon: -156.0, eastLon: -142.0), // [E]
         SectionalChart(name: "JUNEAU",        northLat: 62.0, southLat: 56.0, westLon: -142.0, eastLon: -130.0), // [E]
 
-        // --- Hawaii [E] ---
-        SectionalChart(name: "HONOLULU",      northLat: 22.5, southLat: 18.5, westLon: -161.0, eastLon: -154.0), // [E]
+        // --- Hawaii ---
+        SectionalChart(name: "HAWAIIAN ISLANDS", northLat: 22.5, southLat: 18.5, westLon: -161.0, eastLon: -154.0), // [E] fixed: was "HONOLULU" (wrong official name)
     ]
 
     // MARK: - Public API
