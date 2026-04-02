@@ -78,7 +78,7 @@ struct CAPGridService {
         SectionalChart(name: "DALLAS-FT WORTH", northLat: 36.0, southLat: 32.0, westLon: -104.0, eastLon: -98.0), // [E] fixed: was -100/-94
         SectionalChart(name: "MEMPHIS",       northLat: 36.0, southLat: 32.0, westLon: -98.0,  eastLon: -88.0),  // [E] fixed: was N:38/S:34
         SectionalChart(name: "ATLANTA",       northLat: 36.0, southLat: 32.0, westLon: -88.0,  eastLon: -82.0),  // [E]
-        SectionalChart(name: "CHARLOTTE",     northLat: 38.0, southLat: 34.0, westLon: -82.0,  eastLon: -75.0),  // [V] cap-es.net
+        SectionalChart(name: "CHARLOTTE",     northLat: 36.0, southLat: 32.0, westLon: -82.0,  eastLon: -75.0),  // [V] cap-es.net (fixed: was 38-34, inconsistent with Lower-mid tier)
 
         // --- Southern tier (~28°N – 32°N) ---
         SectionalChart(name: "EL PASO",       northLat: 32.0, southLat: 28.0, westLon: -110.0, eastLon: -104.0), // [E] fixed: was N:34/S:30
