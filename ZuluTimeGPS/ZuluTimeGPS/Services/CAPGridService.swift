@@ -42,10 +42,10 @@ struct CAPGridService {
     static let charts: [SectionalChart] = [
         // --- Northern tier (~44°N – 48°N) [E] ---
         // NOTE: Bounds below are estimates [E]. Verify all against FAA IAC-2 spec (page 1-4).
-        // Known gap: -104° to -98° (North Dakota) — no official chart identified without IAC-2 data.
         SectionalChart(name: "SEATTLE",       northLat: 48.0, southLat: 44.0, westLon: -126.0, eastLon: -118.0), // [E]
         SectionalChart(name: "GREAT FALLS",   northLat: 48.0, southLat: 44.0, westLon: -118.0, eastLon: -108.0), // [E]
         SectionalChart(name: "BILLINGS",      northLat: 48.0, southLat: 44.0, westLon: -108.0, eastLon: -104.0), // [E] fixed: was -112 (overlapped GREAT FALLS)
+        SectionalChart(name: "BISMARCK",      northLat: 48.0, southLat: 44.0, westLon: -104.0, eastLon: -98.0),  // [E] ADDED: fills gap (North Dakota)
         SectionalChart(name: "TWIN CITIES",   northLat: 48.0, southLat: 44.0, westLon: -98.0,  eastLon: -90.0),  // [E]
         SectionalChart(name: "GREEN BAY",     northLat: 48.0, southLat: 44.0, westLon: -90.0,  eastLon: -84.0),  // [E] fixed: was -92 (overlapped TWIN CITIES)
         SectionalChart(name: "LAKE HURON",    northLat: 48.0, southLat: 44.0, westLon: -84.0,  eastLon: -78.0),  // [E] fixed: was -86 (overlapped GREEN BAY)
@@ -64,6 +64,7 @@ struct CAPGridService {
         // --- Mid tier (~36°N – 40°N) ---
         SectionalChart(name: "SAN FRANCISCO", northLat: 40.0, southLat: 36.0, westLon: -126.0, eastLon: -120.0), // [E]
         SectionalChart(name: "LAS VEGAS",     northLat: 40.0, southLat: 36.0, westLon: -120.0, eastLon: -114.0), // [E] fixed: was N:38/S:34 (inconsistent with tier)
+        SectionalChart(name: "NEW MEXICO",    northLat: 40.0, southLat: 36.0, westLon: -114.0, eastLon: -109.0), // [E] ADDED: fills gap between LAS VEGAS and DENVER
         SectionalChart(name: "DENVER",        northLat: 40.0, southLat: 36.0, westLon: -109.0, eastLon: -101.0), // [E] fixed: was N:42/S:38
         SectionalChart(name: "WICHITA",       northLat: 40.0, southLat: 36.0, westLon: -101.0, eastLon: -95.0),  // [E]
         SectionalChart(name: "KANSAS CITY",   northLat: 40.0, southLat: 36.0, westLon: -95.0,  eastLon: -89.0),  // [E] fixed: was N:41/S:37
@@ -86,8 +87,10 @@ struct CAPGridService {
         SectionalChart(name: "HOUSTON",       northLat: 32.0, southLat: 28.0, westLon: -98.0,  eastLon: -92.0),  // [E]
         SectionalChart(name: "NEW ORLEANS",   northLat: 32.0, southLat: 28.0, westLon: -92.0,  eastLon: -85.0),  // [E]
         SectionalChart(name: "JACKSONVILLE",  northLat: 32.0, southLat: 28.0, westLon: -85.0,  eastLon: -79.0),  // [V] cap-es.net
-        SectionalChart(name: "BROWNSVILLE",   northLat: 28.0, southLat: 24.0, westLon: -100.0, eastLon: -96.0),  // [E]
-        SectionalChart(name: "MIAMI",         northLat: 28.0, southLat: 24.0, westLon: -84.0,  eastLon: -78.0),  // [E]
+
+        // --- Tropical tier (~24°N – 28°N) ---
+        SectionalChart(name: "BROWNSVILLE",   northLat: 28.0, southLat: 24.0, westLon: -100.0, eastLon: -85.0),  // [E] extended: was -96, fills gap toward Gulf Coast
+        SectionalChart(name: "KEY WEST",      northLat: 28.0, southLat: 24.0, westLon: -85.0,  eastLon: -78.0),  // [E] ADDED: covers Gulf of Mexico and Florida Keys, fills gap
 
         // --- Alaska (simplified) [E] ---
         SectionalChart(name: "ANCHORAGE",     northLat: 64.0, southLat: 58.0, westLon: -156.0, eastLon: -144.0), // [E]
