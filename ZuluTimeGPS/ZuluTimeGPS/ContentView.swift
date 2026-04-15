@@ -69,6 +69,7 @@ struct ContentView: View {
                         Image(systemName: "gear")
                             .foregroundColor(.white)
                     }
+                    .accessibilityLabel("Settings")
                 }
                 ToolbarItem(placement: .principal) {
                     Text("Zulu Time")
@@ -82,6 +83,7 @@ struct ContentView: View {
                         Image(systemName: "location.fill")
                             .foregroundColor(.white)
                     }
+                    .accessibilityLabel("Refresh Location")
                 }
             }
             .toolbarBackground(Color.black, for: .navigationBar)
