@@ -14,6 +14,7 @@
 		AA000005 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA100005 /* Assets.xcassets */; };
 		AA000006 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA100006 /* Preview Assets.xcassets */; };
 		AA000007 /* CAPGridService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100008 /* CAPGridService.swift */; };
+		AA000008 /* HealthCheckService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100009 /* HealthCheckService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		AA100006 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		AA100007 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA100008 /* CAPGridService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAPGridService.swift; sourceTree = "<group>"; };
+		AA100009 /* HealthCheckService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthCheckService.swift; sourceTree = "<group>"; };
 		AA200001 /* ZuluTimeGPS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZuluTimeGPS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -66,6 +68,7 @@
 				AA100003 /* TimeService.swift */,
 				AA100004 /* LocationService.swift */,
 				AA100008 /* CAPGridService.swift */,
+				AA100009 /* HealthCheckService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -161,6 +164,7 @@
 				AA000003 /* TimeService.swift in Sources */,
 				AA000004 /* LocationService.swift in Sources */,
 				AA000007 /* CAPGridService.swift in Sources */,
+				AA000008 /* HealthCheckService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
