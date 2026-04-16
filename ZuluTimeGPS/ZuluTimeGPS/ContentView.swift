@@ -213,7 +213,7 @@ struct SettingsView: View {
 
             let (_, response) = try await URLSession.shared.data(for: request)
 
-            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
+            if let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) {
                 feedbackMessage = "Issue reported successfully!"
                 feedbackIsError = false
                 gridInput = ""
