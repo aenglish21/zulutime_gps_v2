@@ -3,6 +3,7 @@ import SwiftUI
 struct ContentView: View {
     @StateObject private var timeService = TimeService()
     @StateObject private var locationService = LocationService()
+    @StateObject private var healthCheckService = HealthCheckService()
     @AppStorage("gpsEnabled") private var gpsEnabled = true
     @AppStorage("useFeet") private var useFeet = false
     @AppStorage("keepScreenOn") private var keepScreenOn = true
@@ -89,7 +90,7 @@ struct ContentView: View {
             .toolbarBackground(Color.black, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
             .sheet(isPresented: $showingSettings) {
-                SettingsView(gpsEnabled: $gpsEnabled, useFeet: $useFeet, keepScreenOn: $keepScreenOn)
+                SettingsView(gpsEnabled: $gpsEnabled, useFeet: $useFeet, keepScreenOn: $keepScreenOn, healthCheckService: healthCheckService)
             }
         }
         .onAppear {
@@ -117,6 +118,7 @@ struct SettingsView: View {
     @Binding var gpsEnabled: Bool
     @Binding var useFeet: Bool
     @Binding var keepScreenOn: Bool
+    @ObservedObject var healthCheckService: HealthCheckService
     @Environment(\.dismiss) private var dismiss
 
     @State private var showReportAlert = false
@@ -147,14 +149,16 @@ struct SettingsView: View {
                 }
 
                 Section("Support") {
-                    Button(action: { showReportAlert = true }) {
-                        HStack {
-                            Image(systemName: "exclamationmark.circle")
-                            Text("Report CAP Grid Issue")
+                    if healthCheckService.isHealthy {
+                        Button(action: { showReportAlert = true }) {
+                            HStack {
+                                Image(systemName: "exclamationmark.circle")
+                                Text("Report CAP Grid Issue")
+                            }
+                            .foregroundColor(.red)
                         }
-                        .foregroundColor(.red)
+                        .disabled(isSubmitting)
                     }
-                    .disabled(isSubmitting)
                 }
             }
             .navigationTitle("Settings")
