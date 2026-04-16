@@ -119,6 +119,14 @@ struct SettingsView: View {
     @Binding var keepScreenOn: Bool
     @Environment(\.dismiss) private var dismiss
 
+    @State private var showReportAlert = false
+    @State private var gridInput = ""
+    @State private var noteInput = ""
+    @State private var isSubmitting = false
+    @State private var showFeedback = false
+    @State private var feedbackMessage = ""
+    @State private var feedbackIsError = false
+
     var body: some View {
         NavigationStack {
             List {
@@ -137,6 +145,17 @@ struct SettingsView: View {
                     }
                     .pickerStyle(.segmented)
                 }
+
+                Section("Support") {
+                    Button(action: { showReportAlert = true }) {
+                        HStack {
+                            Image(systemName: "exclamationmark.circle")
+                            Text("Report CAP Grid Issue")
+                        }
+                        .foregroundColor(.red)
+                    }
+                    .disabled(isSubmitting)
+                }
             }
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
@@ -145,7 +164,72 @@ struct SettingsView: View {
                     Button("Done") { dismiss() }
                 }
             }
+            .alert("Report CAP Grid Issue", isPresented: $showReportAlert) {
+                TextField("Grid (e.g., B7)", text: $gridInput)
+                TextField("Description (optional)", text: $noteInput)
+
+                Button("Cancel", role: .cancel) {
+                    gridInput = ""
+                    noteInput = ""
+                }
+
+                Button("Report", action: {
+                    if !gridInput.isEmpty {
+                        Task {
+                            await reportGridIssue(grid: gridInput, note: noteInput)
+                        }
+                    }
+                })
+                .disabled(gridInput.isEmpty || isSubmitting)
+            }
+            .alert("Report Status", isPresented: $showFeedback) {
+                Button("OK") { }
+            } message: {
+                Text(feedbackMessage)
+            }
         }
+    }
+
+    private func reportGridIssue(grid: String, note: String) async {
+        isSubmitting = true
+
+        let url = URL(string: "https://gridapi.addisonserver.com/report-error")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "unknown"
+        let deviceId = UIDevice.current.identifierForVendor?.uuidString ?? "unknown"
+
+        let payload: [String: Any] = [
+            "grid": grid,
+            "note": note.isEmpty ? NSNull() : note,
+            "device_id": deviceId,
+            "app_version": appVersion
+        ]
+
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: payload)
+
+            let (_, response) = try await URLSession.shared.data(for: request)
+
+            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
+                feedbackMessage = "Issue reported successfully!"
+                feedbackIsError = false
+                gridInput = ""
+                noteInput = ""
+            } else {
+                feedbackMessage = "Failed to report issue. Please try again."
+                feedbackIsError = true
+            }
+        } catch {
+            feedbackMessage = "Error: \(error.localizedDescription)"
+            feedbackIsError = true
+        }
+
+        showReportAlert = false
+        showFeedback = true
+        isSubmitting = false
     }
 }
 
