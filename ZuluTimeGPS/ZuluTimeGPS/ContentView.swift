@@ -3,6 +3,7 @@ import SwiftUI
 struct ContentView: View {
     @StateObject private var timeService = TimeService()
     @StateObject private var locationService = LocationService()
+    @StateObject private var healthCheckService = HealthCheckService()
     @AppStorage("gpsEnabled") private var gpsEnabled = true
     @AppStorage("useFeet") private var useFeet = false
     @AppStorage("keepScreenOn") private var keepScreenOn = true
@@ -69,6 +70,7 @@ struct ContentView: View {
                         Image(systemName: "gear")
                             .foregroundColor(.white)
                     }
+                    .accessibilityLabel("Settings")
                 }
                 ToolbarItem(placement: .principal) {
                     Text("Zulu Time")
@@ -82,12 +84,13 @@ struct ContentView: View {
                         Image(systemName: "location.fill")
                             .foregroundColor(.white)
                     }
+                    .accessibilityLabel("Refresh Location")
                 }
             }
             .toolbarBackground(Color.black, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
             .sheet(isPresented: $showingSettings) {
-                SettingsView(gpsEnabled: $gpsEnabled, useFeet: $useFeet, keepScreenOn: $keepScreenOn)
+                SettingsView(gpsEnabled: $gpsEnabled, useFeet: $useFeet, keepScreenOn: $keepScreenOn, healthCheckService: healthCheckService)
             }
         }
         .onAppear {
@@ -115,7 +118,16 @@ struct SettingsView: View {
     @Binding var gpsEnabled: Bool
     @Binding var useFeet: Bool
     @Binding var keepScreenOn: Bool
+    @ObservedObject var healthCheckService: HealthCheckService
     @Environment(\.dismiss) private var dismiss
+
+    @State private var showReportAlert = false
+    @State private var gridInput = ""
+    @State private var noteInput = ""
+    @State private var isSubmitting = false
+    @State private var showFeedback = false
+    @State private var feedbackMessage = ""
+    @State private var feedbackIsError = false
 
     var body: some View {
         NavigationStack {
@@ -135,6 +147,19 @@ struct SettingsView: View {
                     }
                     .pickerStyle(.segmented)
                 }
+
+                Section("Support") {
+                    if healthCheckService.isHealthy {
+                        Button(action: { showReportAlert = true }) {
+                            HStack {
+                                Image(systemName: "exclamationmark.circle")
+                                Text("Report CAP Grid Issue")
+                            }
+                            .foregroundColor(.red)
+                        }
+                        .disabled(isSubmitting)
+                    }
+                }
             }
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
@@ -143,7 +168,72 @@ struct SettingsView: View {
                     Button("Done") { dismiss() }
                 }
             }
+            .alert("Report CAP Grid Issue", isPresented: $showReportAlert) {
+                TextField("Grid (e.g., B7)", text: $gridInput)
+                TextField("Description (optional)", text: $noteInput)
+
+                Button("Cancel", role: .cancel) {
+                    gridInput = ""
+                    noteInput = ""
+                }
+
+                Button("Report", action: {
+                    if !gridInput.isEmpty {
+                        Task {
+                            await reportGridIssue(grid: gridInput, note: noteInput)
+                        }
+                    }
+                })
+                .disabled(gridInput.isEmpty || isSubmitting)
+            }
+            .alert("Report Status", isPresented: $showFeedback) {
+                Button("OK") { }
+            } message: {
+                Text(feedbackMessage)
+            }
         }
+    }
+
+    private func reportGridIssue(grid: String, note: String) async {
+        isSubmitting = true
+
+        let url = URL(string: "https://gridapi.addisonserver.com/report-error")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "unknown"
+        let deviceId = UIDevice.current.identifierForVendor?.uuidString ?? "unknown"
+
+        let payload: [String: Any] = [
+            "grid": grid,
+            "note": note.isEmpty ? NSNull() : note,
+            "device_id": deviceId,
+            "app_version": appVersion
+        ]
+
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: payload)
+
+            let (_, response) = try await URLSession.shared.data(for: request)
+
+            if let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) {
+                feedbackMessage = "Issue reported successfully!"
+                feedbackIsError = false
+                gridInput = ""
+                noteInput = ""
+            } else {
+                feedbackMessage = "Failed to report issue. Please try again."
+                feedbackIsError = true
+            }
+        } catch {
+            feedbackMessage = "Error: \(error.localizedDescription)"
+            feedbackIsError = true
+        }
+
+        showReportAlert = false
+        showFeedback = true
+        isSubmitting = false
     }
 }
 
