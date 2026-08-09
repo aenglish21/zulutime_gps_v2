@@ -38,7 +38,7 @@ class LocationService: NSObject, ObservableObject, CLLocationManagerDelegate {
 
     var capGrid: String {
         guard let loc = currentLocation else { return "--" }
-        return CAPGridService.gridReference(for: loc.coordinate) ?? "Outside coverage"
+        return CAPGridService.gridReference(for: loc.coordinate) ?? "No CAPGrids Coverage"
     }
 
     override init() {
