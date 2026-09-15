@@ -99,14 +99,14 @@ struct ContentView: View {
             }
             UIApplication.shared.isIdleTimerDisabled = keepScreenOn
         }
-        .onChange(of: gpsEnabled) { enabled in
+        .onChange(of: gpsEnabled) { _, enabled in
             if enabled {
                 locationService.startTracking()
             } else {
                 locationService.stopTracking()
             }
         }
-        .onChange(of: keepScreenOn) { enabled in
+        .onChange(of: keepScreenOn) { _, enabled in
             UIApplication.shared.isIdleTimerDisabled = enabled
         }
     }

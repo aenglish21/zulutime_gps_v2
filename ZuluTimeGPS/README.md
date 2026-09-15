@@ -22,7 +22,7 @@ A native iOS app for displaying UTC (Zulu) time with integrated GPS location tra
 ## Requirements
 
 - Xcode 15.0+
-- iOS 16.0+
+- iOS 17.0+
 - Swift 5.9+
 - No third-party dependencies (uses only Apple frameworks: SwiftUI, CoreLocation, Combine)
 
@@ -72,7 +72,7 @@ The app requests these location permissions (configured in Info.plist):
 
 - **Bundle ID**: Change `PRODUCT_BUNDLE_IDENTIFIER` in project settings
 - **App Icon**: Add a 1024x1024 PNG to `Assets.xcassets/AppIcon.appiconset/`
-- **Deployment Target**: Currently iOS 16.0, adjustable in project settings
+- **Deployment Target**: Currently iOS 17.0, adjustable in project settings
 
 ## Building for Release
 
