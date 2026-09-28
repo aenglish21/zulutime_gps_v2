@@ -5,7 +5,7 @@ import CoreLocation
 ///
 /// The CAP grid system is based on FAA VFR Sectional Aeronautical Navigation Charts.
 /// Each sectional chart is divided into 15' x 15' (0.25° x 0.25°) grid squares,
-/// numbered from the northwest corner going east, then south.
+/// numbered from the northwest corne going east, then south.
 /// Output format: "CHARLOTTE 087"
 struct CAPGridService {
 
