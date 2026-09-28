@@ -11,55 +11,18 @@ struct ContentView: View {
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(spacing: 0) {
-
-                    // --- UTC Time ---
-                    VStack(spacing: 8) {
-                        Text("Zulu Time")
-                            .font(.system(size: 28, weight: .light))
-                            .foregroundColor(.white)
-
-                        Text(timeService.utcTimeFormatted)
-                            .font(.system(size: 50, weight: .bold, design: .monospaced))
-                            .foregroundColor(.white)
-
-                        Text(timeService.utcDateFormatted)
-                            .font(.system(size: 24, design: .monospaced))
-                            .foregroundColor(.white.opacity(0.7))
-                    }
-                    .padding(.top, 24)
-
-                    Spacer().frame(height: 48)
-
-                    // --- Local Time ---
-                    VStack(spacing: 8) {
-                        Text("Local Time")
-                            .font(.system(size: 28, weight: .light))
-                            .foregroundColor(.white)
-
-                        Text(timeService.localTimeFormatted)
-                            .font(.system(size: 50, weight: .bold, design: .monospaced))
-                            .foregroundColor(.white)
-
-                        Text(timeService.localDateFormatted)
-                            .font(.system(size: 24, design: .monospaced))
-                            .foregroundColor(.white.opacity(0.7))
-
-                        Text(timeService.timezoneOffset)
-                            .font(.system(size: 20, design: .monospaced))
-                            .foregroundColor(.white.opacity(0.54))
-                    }
-
-                    Spacer().frame(height: 48)
-
-                    // --- GPS Location Card ---
-                    if gpsEnabled {
-                        GPSCardView(locationService: locationService, useFeet: useFeet)
-                    }
+            // Try the roomy layout first, then a tighter one, and only fall back
+            // to scrolling on screens where neither fits.
+            ViewThatFits(in: .vertical) {
+                mainContent(sectionSpacing: 48)
+                mainContent(sectionSpacing: 24)
+                ScrollView {
+                    mainContent(sectionSpacing: 24)
+                        .padding(.bottom, 16)
                 }
-                .padding(.horizontal, 24)
+                .scrollBounceBehavior(.basedOnSize)
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .background(Color.black)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -109,6 +72,56 @@ struct ContentView: View {
         .onChange(of: keepScreenOn) { _, enabled in
             UIApplication.shared.isIdleTimerDisabled = enabled
         }
+    }
+
+    private func mainContent(sectionSpacing: CGFloat) -> some View {
+        VStack(spacing: 0) {
+
+            // --- UTC Time ---
+            VStack(spacing: 8) {
+                Text("Zulu Time")
+                    .font(.system(size: 28, weight: .light))
+                    .foregroundColor(.white)
+
+                Text(timeService.utcTimeFormatted)
+                    .font(.system(size: 50, weight: .bold, design: .monospaced))
+                    .foregroundColor(.white)
+
+                Text(timeService.utcDateFormatted)
+                    .font(.system(size: 24, design: .monospaced))
+                    .foregroundColor(.white.opacity(0.7))
+            }
+            .padding(.top, 24)
+
+            Spacer().frame(height: sectionSpacing)
+
+            // --- Local Time ---
+            VStack(spacing: 8) {
+                Text("Local Time")
+                    .font(.system(size: 28, weight: .light))
+                    .foregroundColor(.white)
+
+                Text(timeService.localTimeFormatted)
+                    .font(.system(size: 50, weight: .bold, design: .monospaced))
+                    .foregroundColor(.white)
+
+                Text(timeService.localDateFormatted)
+                    .font(.system(size: 24, design: .monospaced))
+                    .foregroundColor(.white.opacity(0.7))
+
+                Text(timeService.timezoneOffset)
+                    .font(.system(size: 20, design: .monospaced))
+                    .foregroundColor(.white.opacity(0.54))
+            }
+
+            Spacer().frame(height: sectionSpacing)
+
+            // --- GPS Location Card ---
+            if gpsEnabled {
+                GPSCardView(locationService: locationService, useFeet: useFeet)
+            }
+        }
+        .padding(.horizontal, 24)
     }
 }
 
