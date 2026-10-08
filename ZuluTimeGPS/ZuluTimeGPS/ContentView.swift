@@ -166,7 +166,7 @@ struct SettingsView: View {
                         Button(action: { showReportAlert = true }) {
                             HStack {
                                 Image(systemName: "exclamationmark.circle")
-                                Text("Report CAP Grid Issue")
+                                Text("Report an Issue with a CAP GRID")
                             }
                             .foregroundColor(.red)
                         }
@@ -182,7 +182,7 @@ struct SettingsView: View {
                 }
             }
             .alert("Report CAP Grid Issue", isPresented: $showReportAlert) {
-                TextField("Grid (e.g., B7)", text: $gridInput)
+                TextField("Grid (e.g., JAX305)", text: $gridInput)
                 TextField("Description (optional)", text: $noteInput)
 
                 Button("Cancel", role: .cancel) {
