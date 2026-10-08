@@ -231,7 +231,7 @@ struct SettingsView: View {
             let (_, response) = try await URLSession.shared.data(for: request)
 
             if let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) {
-                feedbackMessage = "Issue reported successfully!"
+                feedbackMessage = "CAP GridIssue reported successfully!"
                 feedbackIsError = false
                 gridInput = ""
                 noteInput = ""
