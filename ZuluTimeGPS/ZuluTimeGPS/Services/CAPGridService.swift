@@ -15,6 +15,7 @@ struct CAPGridService {
         let southLat: Double
         let westLon: Double   // Negative for Western hemisphere
         let eastLon: Double   // Negative for Western hemisphere
+        var columnsOverride: Int? = nil  // Set when the printed grid's column count differs from the rounded extent
 
         func contains(_ coord: CLLocationCoordinate2D) -> Bool {
             coord.latitude >= southLat && coord.latitude < northLat &&
@@ -22,7 +23,7 @@ struct CAPGridService {
         }
 
         var columnsPerRow: Int {
-            Int(((eastLon - westLon) / 0.25).rounded())
+            columnsOverride ?? Int(((eastLon - westLon) / 0.25).rounded())
         }
 
         func gridNumber(for coord: CLLocationCoordinate2D) -> Int {
@@ -68,7 +69,8 @@ struct CAPGridService {
 
         // --- Mid tier A: 35°35'N – 40°03'N [V] ---
         // Las Vegas and Denver share different south/north extents than other mid-tier charts.
-        SectionalChart(name: "LAS VEGAS",     northLat: 40.05,  southLat: 35.583, westLon: -118.0,   eastLon: -110.683),
+        // 28 columns per row: matches ForeFlight (LAS 432) at 36.111882, -115.170612.
+        SectionalChart(name: "LAS VEGAS",     northLat: 40.05,  southLat: 35.583, westLon: -118.0,   eastLon: -110.683, columnsOverride: 28),
         SectionalChart(name: "DENVER",        northLat: 40.05,  southLat: 35.583, westLon: -111.0,   eastLon: -103.733),
 
         // --- Mid tier B: 36°N – 40°13'N [V] ---
